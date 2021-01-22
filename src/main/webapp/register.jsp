@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head></head>
@@ -41,58 +40,64 @@
 			<div class="col-md-8"
 				style="background: #fff; padding: 40px 80px; margin: 30px; border: 7px solid #ccc;">
 				<font>会员注册</font>USER REGISTER
-				<form class="form-horizontal" action="${pageContext.request.contextPath}/" style="margin-top: 5px;" method="post">
+				<form class="form-horizontal" action="${pageContext.request.contextPath}/user?method=regist" style="margin-top: 5px;" method="post">
 					<div class="form-group">
 						<label for="username" class="col-sm-2 control-label">昵称</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="username" placeholder="请输入昵称">
+							<input type="text" class="form-control" id="username" name="username" placeholder="请输入昵称">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="password" class="col-sm-2 control-label">密码</label>
 						<div class="col-sm-6">
-							<input type="password" class="form-control" id="password" placeholder="请输入密码">
+							<input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="confirmpwd" class="col-sm-2 control-label">确认密码</label>
 						<div class="col-sm-6">
-							<input type="password" class="form-control" id="confirmpwd" placeholder="请输入确认密码">
+							<input type="password" class="form-control" id="confirmpwd" name="confirmpwd" placeholder="请输入确认密码">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="email" class="col-sm-2 control-label">邮箱</label>
 						<div class="col-sm-6">
-							<input type="email" class="form-control" id="email" placeholder="请输入Email">
+							<input type="email" class="form-control" id="email" name="email" placeholder="请输入Email">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="telephone" class="col-sm-2 control-label">电话</label>
 						<div class="col-sm-6">
-							<input type="tel" class="form-control" id="telephone" placeholder="请输入Telephone">
+							<input type="tel" class="form-control" id="telephone" name="telephone" placeholder="请输入Telephone">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="address" class="col-sm-2 control-label">地址</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="address" name="address" placeholder="请输入地址">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="name" class="col-sm-2 control-label">姓名</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="name" placeholder="请输入真实姓名">
+							<input type="text" class="form-control" id="name" name="name" placeholder="请输入真实姓名">
 						</div>
 					</div>
 					<div class="form-group opt">
 						<label for="sex1" class="col-sm-2 control-label">性别</label>
 						<div class="col-sm-6">
 							<label class="radio-inline"> 
-								<input type="radio" id="sex1" value="男">男
+								<input type="radio" id="sex1" name="sex" value="男">男
 							</label> 
 							<label class="radio-inline"> 
-								<input type="radio" id="sex2" value="女">女
+								<input type="radio" id="sex2" name="sex" value="女">女
 							</label>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="birthday" class="col-sm-2 control-label">出生日期</label>
 						<div class="col-sm-6">
-							<input type="date" class="form-control" id="birthday" >
+							<input type="date" class="form-control" id="birthday" name="birthday" >
 						</div>
 					</div>
 
