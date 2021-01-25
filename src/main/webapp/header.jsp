@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,6 +20,8 @@
 	</div>
 </div>
 
+<c:set value="${pageContext.request.contextPath}" scope="application" var="path"></c:set>
+
 <!-- 导航条 -->
 <div class="container-fluid">
 	<nav class="navbar navbar-inverse">
@@ -31,15 +34,14 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">首页</a>
+				<a class="navbar-brand" href="${path}/product?method=index">首页</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="product_list.htm">手机数码<span class="sr-only">(current)</span></a></li>
-					<li><a href="#">电脑办公</a></li>
-					<li><a href="#">电脑办公</a></li>
-					<li><a href="#">电脑办公</a></li>
+				<ul class="nav navbar-nav" id="categorys">
+
+					<%--  动态在数据库中查询的商品分类的展示 --%>
+
 				</ul>
 				<form class="navbar-form navbar-right" role="search">
 					<div class="form-group">
@@ -51,3 +53,20 @@
 		</div>
 	</nav>
 </div>
+<script>
+
+	var data = "";
+	$.ajax({
+		type:"get",
+		url:"${path}/category?method=viewAllCategory",
+		dataType:"json",
+		success:function(categoryList){
+			for (var i in categoryList) {  //i是集合的下标
+				console.log("i = "+i)
+				data += "<li><a href=''>"+categoryList[i].cname+"</a></li>";
+			}
+			$("#categorys").html(data);
+		}
+	});
+
+</script>
