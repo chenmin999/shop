@@ -7,6 +7,8 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
 	<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
 	<script src="js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="js/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="js/validate.js" type="text/javascript"></script>
 	<!-- 引入自定义css文件 style.css -->
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 
@@ -27,9 +29,16 @@
 			font-weight: normal;
 			padding: 0 10px;
 		}
+
+		.error{
+			color:red;
+		}
 	</style>
 </head>
 <body>
+
+	<%-- 隐藏域：存储项目发布路径 --%>
+	<input type="hidden" id="path" value="${pageContext.request.contextPath}" />
 
 	<!-- 引入header.jsp -->
 	<jsp:include page="/header.jsp"></jsp:include>
@@ -40,7 +49,7 @@
 			<div class="col-md-8"
 				style="background: #fff; padding: 40px 80px; margin: 30px; border: 7px solid #ccc;">
 				<font>会员注册</font>USER REGISTER
-				<form class="form-horizontal" action="${pageContext.request.contextPath}/user?method=regist" style="margin-top: 5px;" method="post">
+				<form id="registForm" class="form-horizontal" action="${pageContext.request.contextPath}/user?method=regist" style="margin-top: 5px;" method="post">
 					<div class="form-group">
 						<label for="username" class="col-sm-2 control-label">昵称</label>
 						<div class="col-sm-6">
@@ -93,6 +102,8 @@
 								<input type="radio" id="sex2" name="sex" value="女">女
 							</label>
 						</div>
+						<%-- 出现错误信息 --%>
+						<%--<lable for="sex" class="error" style="display:none">性别必选</lable>--%>
 					</div>
 					<div class="form-group">
 						<label for="birthday" class="col-sm-2 control-label">出生日期</label>

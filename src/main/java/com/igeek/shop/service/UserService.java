@@ -2,7 +2,6 @@ package com.igeek.shop.service;
 
 import com.igeek.shop.dao.UserDao;
 import com.igeek.shop.entity.User;
-import com.igeek.shop.utils.DataSourceUtils;
 
 import java.sql.SQLException;
 
@@ -30,6 +29,18 @@ public class UserService {
     public boolean active(String code){
         try {
             return dao.updateState(code)>0 ? true :false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    //校验昵称是否存在
+    public boolean validate(String username){
+        try {
+            Long one = dao.selectOne(username);
+            //若为true则存在 ， 若为false则不存在
+            return one > 0 ?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }

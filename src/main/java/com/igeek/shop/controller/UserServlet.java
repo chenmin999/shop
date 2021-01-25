@@ -3,6 +3,7 @@ package com.igeek.shop.controller;
 import com.igeek.shop.entity.User;
 import com.igeek.shop.service.UserService;
 import com.igeek.shop.utils.CommonUtils;
+import com.igeek.shop.utils.MD5Utils;
 import com.igeek.shop.utils.MailUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -72,6 +73,9 @@ public class UserServlet extends BasicServlet {
         String code = CommonUtils.getUUID().replaceAll("-","");
         user.setCode(code);
 
+        //通过MD5处理密码
+        user.setPassword(MD5Utils.md5(user.getPassword()));
+
         //执行用户注册
         boolean flag = service.regist(user);
         if(flag){
@@ -96,14 +100,22 @@ public class UserServlet extends BasicServlet {
         boolean flag = service.active(code);
         if(flag){
             //激活成功
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("index.jsp");
         }else{
             //激活失败
             response.sendRedirect("error.jsp");
         }
     }
 
-    //
+    //用户昵称校验
+    public void validate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        boolean flag = service.validate(username);
+
+        //封装成json数据格式响应至客户端   json串：{"flag":flag}
+        String str = "{\"flag\":"+flag+"}";
+        response.getWriter().write(str);
+    }
 
     //
 }

@@ -28,4 +28,11 @@ public class UserDao extends BasicDao<User> {
         return i;
     }
 
+    //通过用户名查询信息
+    public Long selectOne(String username) throws SQLException {
+        String sql = "select count(*) from user where username = ?";
+        Long value = (Long)this.getSingleValue(sql, username);
+        return value;
+    }
+
 }
