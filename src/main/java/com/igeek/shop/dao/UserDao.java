@@ -21,4 +21,11 @@ public class UserDao extends BasicDao<User> {
         return i;
     }
 
+    //更新状态
+    public int updateState(String code) throws SQLException {
+        String sql = "update user set state = ? where code = ?";
+        int i = this.update(sql, 1, code);
+        return i;
+    }
+
 }

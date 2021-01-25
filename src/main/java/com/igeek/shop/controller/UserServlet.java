@@ -3,10 +3,12 @@ package com.igeek.shop.controller;
 import com.igeek.shop.entity.User;
 import com.igeek.shop.service.UserService;
 import com.igeek.shop.utils.CommonUtils;
+import com.igeek.shop.utils.MailUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.Converter;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,9 +28,10 @@ public class UserServlet extends BasicServlet {
 
     //用户注册
     public void regist(final HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //获得请求参数
         Map<String, String[]> parameterMap = request.getParameterMap();
         //{key=username,value=张三}  {key=hobby,value=[games,music]}
-        System.out.println(parameterMap);
+        //System.out.println(parameterMap);
 
         User user = new User();
 
@@ -72,7 +75,14 @@ public class UserServlet extends BasicServlet {
         //执行用户注册
         boolean flag = service.regist(user);
         if(flag){
-            //注册成功
+            //注册成功，发一份邮件
+            //邮件的主体内容
+            String emailMsg = "恭喜您注册成功，这是一封激活邮件，请点击<a href='http://localhost:8088/user?method=active&code="+code+"'>"+code+"</a>激活";
+            try {
+                MailUtils.sendMail(user.getEmail(),"注册邮件激活",emailMsg);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
             request.getRequestDispatcher("registSuccess.jsp").forward(request,response);
         }else{
             //注册失败
@@ -81,8 +91,19 @@ public class UserServlet extends BasicServlet {
     }
 
     //用户激活
+    public void active(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String code = request.getParameter("code");
+        boolean flag = service.active(code);
+        if(flag){
+            //激活成功
+            response.sendRedirect("login.jsp");
+        }else{
+            //激活失败
+            response.sendRedirect("error.jsp");
+        }
+    }
 
-    //用户登录
+    //
 
     //
 }
