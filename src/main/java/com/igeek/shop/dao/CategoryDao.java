@@ -18,4 +18,10 @@ public class CategoryDao extends BasicDao<Category> {
         return this.getBeanList("select * from category",Category.class);
     }
 
+    //通过商品类别的编号查询商品类别的名称
+    public String selectOneCategory(String cid) throws SQLException {
+        Object value = this.getSingleValue("select cname from category where cid = ?", cid);
+        return value.toString();
+    }
+
 }

@@ -43,12 +43,23 @@
 					<%--  动态在数据库中查询的商品分类的展示 --%>
 
 				</ul>
-				<form class="navbar-form navbar-right" role="search">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
-				</form>
+
+				<%-- 当前若是商品列表展示，则头部页面有表单显示 --%>
+				<c:if test="${vo!=null}">
+					<form class="navbar-form navbar-right" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search" id="searchName" name="pname" value="${vo.query2}">
+						</div>
+						<input type="button" class="btn btn-success" value="Submit" onclick="query()" />
+						
+						<script>
+							function query() {
+								window.location.href="${path}/product?method=viewProductListByCidPname&cid=${vo.query1}&pname="+$("#searchName").val();
+							}
+						</script>
+					</form>
+				</c:if>
+
 			</div>
 		</div>
 	</nav>
@@ -62,8 +73,8 @@
 		dataType:"json",
 		success:function(categoryList){
 			for (var i in categoryList) {  //i是集合的下标
-				console.log("i = "+i)
-				data += "<li><a href=''>"+categoryList[i].cname+"</a></li>";
+				//console.log("i = "+i)
+				data += "<li><a href='${path}/product?method=viewProductListByCidPname&cid="+categoryList[i].cid+"'>"+categoryList[i].cname+"</a></li>";
 			}
 			$("#categorys").html(data);
 		}

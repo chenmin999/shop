@@ -26,4 +26,13 @@ public class CategoryService {
         return null;
     }
 
+    //通过商品类别的编号查询商品类别的名称
+    public String viewCname(String cid){
+        try {
+            return dao.selectOneCategory(cid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
