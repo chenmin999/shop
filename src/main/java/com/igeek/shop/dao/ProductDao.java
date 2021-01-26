@@ -67,4 +67,11 @@ public class ProductDao extends BasicDao<Product> {
         }
         return productList;
     }
+
+    //通过商品编号查询商品信息
+    public Product selectProductByPid(String pid) throws SQLException {
+        String sql = "select * from product where pid = ?";
+        Product product = this.getBean(sql, Product.class, pid);
+        return product;
+    }
 }

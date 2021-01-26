@@ -61,4 +61,14 @@ public class ProductService {
         }
         return vo;
     }
+
+    //通过商品编号查询商品信息
+    public Product viewProductByPid(String pid){
+        try {
+            return productDao.selectProductByPid(pid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

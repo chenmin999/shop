@@ -67,4 +67,32 @@ public class ProductServlet extends BasicServlet {
         //跳转页面
         request.getRequestDispatcher("product_list.jsp").forward(request,response);
     }
+
+
+    //通过商品编号查询商品信息
+    public void viewProductByPid(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //获得请求参数
+        String pid = request.getParameter("pid");
+        //获得商品信息
+        Product product = productService.viewProductByPid(pid);
+        request.setAttribute("product",product);
+
+        //只有从product_list.jsp页面，才能获得请求参数cid
+        String cid = request.getParameter("cid");
+        if(cid!=null){
+            String cname = categoryService.viewCname(cid);
+            request.setAttribute("cname",cname);
+            request.setAttribute("cid",cid);
+        }
+
+        //获得请求参数，当前页
+        String pageNow = request.getParameter("pageNow");
+        request.setAttribute("pageNow",pageNow);
+
+        //获得请求参数，搜索条件
+        String pname = request.getParameter("pname");
+        request.setAttribute("pname",pname);
+
+        request.getRequestDispatcher("product_info.jsp").forward(request,response);
+    }
 }

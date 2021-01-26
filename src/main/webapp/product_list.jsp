@@ -41,11 +41,11 @@
 
 		<c:forEach items="${vo.list}" var="product">
 			<div class="col-md-2" style="height:250px;">
-				<a href="product_info.jsp">
+				<a href="${path}/product?method=viewProductByPid&pid=${product.pid}&cid=${vo.query1}&pname=${vo.query2}&pageNow=${vo.pageNow}">
 					<img src="${path}/${product.pimage}" width="170" height="170" style="display: inline-block;">
 				</a>
 				<p>
-					<a href="product_info.jsp" style='color: green'>${product.pname}</a>
+					<a href="${path}/product?method=viewProductByPid&pid=${product.pid}" style='color: green'>${product.pname}</a>
 				</p>
 				<p>
 					<font color="#FF0000">商城价：&yen;${product.shop_price}</font>
