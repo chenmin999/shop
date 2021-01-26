@@ -70,13 +70,12 @@
 						<div style="margin: 5px 0 10px 0;">白色</div>
 
 						<div style="border-bottom: 1px solid #faeac7; margin-top: 20px; padding-left: 10px;">
-							购买数量: <input id="quantity" name="quantity" value="1"
-								maxlength="4" size="10" type="text">
+							购买数量: <input id="quantity" name="quantity" value="1" maxlength="4" size="10" type="text">
 						</div>
 
 						<div style="margin: 20px 0 10px 0;; text-align: center;">
-							<a href="cart.jsp">
-								<input style="background: url('./images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;" value="加入购物车" type="button">
+							<a href="JavaScript:void(0);">
+								<input style="background: url('./images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;" value="加入购物车" type="button" onclick="addCart()">
 							</a> &nbsp;收藏商品
 						</div>
 					</div>
@@ -157,5 +156,13 @@
 	<jsp:include page="/footer.jsp"></jsp:include>
 
 </body>
-
+<script>
+	
+	function addCart() {
+		var buyNum = $("#quantity").val();
+		window.location.href = "${path}/cart?method=addCart&pid=${product.pid}&buyNum="+buyNum;
+	}
+	
+	
+</script>
 </html>
