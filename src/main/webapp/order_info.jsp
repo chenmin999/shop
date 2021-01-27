@@ -70,7 +70,7 @@
 
 		<div>
 			<hr />
-			<form class="form-horizontal" id="orderForm" style="margin-top: 5px; margin-left: 150px;" action="" method="post">
+			<form class="form-horizontal" id="orderForm" style="margin-top: 5px; margin-left: 150px;" action="${path}/order?method=confirmOrder" method="post">
 				<div class="form-group">
 					<label for="address" class="col-sm-1 control-label">收货地址</label>
 					<div class="col-sm-5">
@@ -78,13 +78,13 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="username" class="col-sm-1 control-label">收货人</label>
+					<label for="username" class="col-sm-1 control-label">收货姓名</label>
 					<div class="col-sm-5">
-						<input type="text" class="form-control" id="username" name="username" value="${user.username}" placeholder="请输收货人">
+						<input type="text" class="form-control" id="username" name="name" value="${user.username}" placeholder="请输收货人">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="telephone" class="col-sm-1 control-label">电话</label>
+					<label for="telephone" class="col-sm-1 control-label">收货电话</label>
 					<div class="col-sm-5">
 						<input type="text" class="form-control" id="telephone" name="telephone" value="${user.telephone}" placeholder="请输入联系方式">
 					</div>

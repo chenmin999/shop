@@ -52,4 +52,23 @@ public class OrderService {
         }
     }
 
+    //更新订单中的收货人信息
+    public int updateOrderUser(Orders orders){
+        try {
+            return dao.updateOrderUser(orders);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //修改订单状态
+    public int updateOrderState(String oid){
+        try {
+            return dao.updateOrderState(oid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

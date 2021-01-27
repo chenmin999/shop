@@ -3,6 +3,7 @@ package com.igeek.shop.controller;
 import com.igeek.shop.entity.*;
 import com.igeek.shop.service.OrderService;
 import com.igeek.shop.utils.CommonUtils;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.Map;
 
@@ -82,6 +84,32 @@ public class OrderServlet extends BasicServlet{
             //提交订单失败
             request.setAttribute("msg","当前订单提交失败，请尝试重新提交");
             request.getRequestDispatcher("cart.jsp").forward(request,response);
+        }
+    }
+
+    //确认订单
+    public void confirmOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1.收集表单中的数据
+        Map<String, String[]> map = request.getParameterMap();
+
+        //2.从会话中获取当前订单信息
+        HttpSession session = request.getSession();
+        Orders orders = (Orders)session.getAttribute("orders");
+
+        //3.更新订单中收货人信息
+        int i = 0;
+        try {
+            BeanUtils.populate(orders,map);
+            i = service.updateOrderUser(orders);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        //4.若更新成功，则跳转至支付页面
+        if(i>0){
+            response.sendRedirect(request.getContextPath()+"/alipay.trade.page.pay.jsp");
         }
     }
 

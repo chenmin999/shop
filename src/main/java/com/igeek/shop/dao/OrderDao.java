@@ -35,4 +35,18 @@ public class OrderDao extends BasicDao<Orders> {
         }
         return i;
     }
+
+    //更新订单中的收货人信息
+    public int updateOrderUser(Orders orders) throws SQLException {
+        String sql = "update orders set name=? , address=? , telephone=? where oid=?";
+        int i = this.update(sql, orders.getName(), orders.getAddress(), orders.getTelephone(), orders.getOid());
+        return i;
+    }
+
+    //更新订单状态
+    public int updateOrderState(String oid) throws SQLException {
+        String sql = "update orders set state = 1 where oid = ?";
+        int i = this.update(sql,oid);
+        return i;
+    }
 }
