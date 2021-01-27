@@ -35,4 +35,11 @@ public class UserDao extends BasicDao<User> {
         return value;
     }
 
+    //通过姓名和密码查询用户信息
+    public User selectOne(String username,String password) throws SQLException {
+        String sql = "select * from user where username = ? and password=?";
+        User user = this.getBean(sql, User.class, username, password);
+        return user;
+    }
+
 }

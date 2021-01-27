@@ -1,40 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>会员登录</title>
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
-<script src="js/bootstrap.min.js" type="text/javascript"></script>
-<!-- 引入自定义css文件 style.css -->
-<link rel="stylesheet" href="css/style.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>会员登录</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+	<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+	<script src="js/bootstrap.min.js" type="text/javascript"></script>
+	<!-- 引入自定义css文件 style.css -->
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
 
-<style>
-body {
-	margin-top: 20px;
-	margin: 0 auto;
-}
+	<style>
+	body {
+		margin-top: 20px;
+		margin: 0 auto;
+	}
 
-.carousel-inner .item img {
-	width: 100%;
-	height: 300px;
-}
+	.carousel-inner .item img {
+		width: 100%;
+		height: 300px;
+	}
 
-.container .row div {
-	/* position:relative;
-				 float:left; */
-	
-}
+	.container .row div {
+		/* position:relative;
+					 float:left; */
 
-font {
-	color: #666;
-	font-size: 22px;
-	font-weight: normal;
-	padding-right: 17px;
-}
-</style>
+	}
+
+	font {
+		color: #666;
+		font-size: 22px;
+		font-weight: normal;
+		padding-right: 17px;
+	}
+	</style>
 </head>
 <body>
 
@@ -54,35 +54,44 @@ font {
 					style="width: 440px; border: 1px solid #E7E7E7; padding: 20px 0 20px 30px; border-radius: 5px; margin-top: 60px; background: #fff;">
 					<font>会员登录</font>USER LOGIN
 					<div>&nbsp;</div>
-					<form class="form-horizontal">
+					<form class="form-horizontal" action="${path}/user?method=login" method="post">
 						<div class="form-group">
 							<label for="username" class="col-sm-2 control-label">用户名</label>
 							<div class="col-sm-6">
-								<input type="text" class="form-control" id="username"
-									placeholder="请输入用户名">
+								<input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+							<label for="password" class="col-sm-2 control-label">密码</label>
 							<div class="col-sm-6">
-								<input type="password" class="form-control" id="inputPassword3"
-									placeholder="请输入密码">
+								<input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
 							</div>
 						</div>
+
+						<c:if test="${msg!=null}">
+							<div class="form-group">
+								<label for="msg" class="col-sm-2 control-label">tips:</label>
+								<div class="col-sm-6">
+									<span id="msg" style="color: red">${msg}</span>
+								</div>
+							</div>
+						</c:if>
+
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
 								<div class="checkbox">
-									<label> <input type="checkbox"> 自动登录
-									</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label> <input
-										type="checkbox"> 记住用户名
+									<label>
+										<input type="checkbox"> 自动登录
+									</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<label>
+										<input type="checkbox"> 记住用户名
 									</label>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<input type="submit" width="100" value="登录" name="submit"
-									style="background: url('./images/login.gif') no-repeat scroll 0 0 rgba(0, 0, 0, 0); height: 35px; width: 100px; color: white;">
+								<input type="submit" width="100" value="登录" name="submit" style="background: url('./images/login.gif') no-repeat scroll 0 0 rgba(0, 0, 0, 0); height: 35px; width: 100px; color: white;">
 							</div>
 						</div>
 					</form>

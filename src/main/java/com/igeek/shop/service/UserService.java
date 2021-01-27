@@ -47,4 +47,14 @@ public class UserService {
         return false;
     }
 
+    //登录
+    public User login(String username,String password){
+        try {
+            User user = dao.selectOne(username, password);
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
@@ -117,5 +118,43 @@ public class UserServlet extends BasicServlet {
         response.getWriter().write(str);
     }
 
-    //
+    //用户登录
+    public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //获得请求参数
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        //通过MD5技术处理登录密码
+        password = MD5Utils.md5(password);
+
+        //登录
+        User user = service.login(username, password);
+        if(user!=null){
+            //邮件已激活，可以登录
+            if(user.getState()==1){
+
+                //自动登录
+                //记住用户名
+
+                //将当前查询到的用户信息，存储至会话中
+                HttpSession session = request.getSession();
+                session.setAttribute("user",user);
+                //跳转至首页
+                request.getRequestDispatcher(request.getContextPath()+"/product?method=index").forward(request,response);
+            }else{
+                request.setAttribute("msg","当前账户未激活，请尽快前往您的邮箱激活！");
+                request.getRequestDispatcher("login.jsp").forward(request,response);
+            }
+        }else{
+            request.setAttribute("msg","用户名与密码不匹配");
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+        }
+    }
+
+    //用户登出
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        request.getRequestDispatcher(request.getContextPath()+"/product?method=index").forward(request,response);
+    }
 }
