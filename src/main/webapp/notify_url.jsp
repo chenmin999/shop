@@ -81,12 +81,6 @@
 		OrderService service = new OrderService();
 		int i = service.updateOrderState(out_trade_no);
 
-		//2.修改状态完成
-		if(i>0){
-			session.removeAttribute("cart");
-			session.removeAttribute("orders");
-		}
-
 		out.println("success");
 		
 	}else {//验证失败

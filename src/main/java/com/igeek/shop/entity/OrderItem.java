@@ -111,8 +111,4 @@ public class OrderItem {
     public void setOrder(Orders order) {
         this.order = order;
     }
-
-    public String toString() {
-        return "OrderItem{itemid = " + itemid + ", count = " + count + ", subtotal = " + subtotal + ", product = " + product + ", order = " + order + "}";
-    }
 }

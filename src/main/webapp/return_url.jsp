@@ -10,6 +10,7 @@
 <%@ page import="com.alipay.api.*"%>
 <%@ page import="com.alipay.api.internal.util.*"%>
 <%@ page import="com.igeek.shop.utils.AlipayConfig" %>
+<%@ page import="com.igeek.shop.entity.Orders" %>
 <%
 /* *
  * 功能：支付宝服务器同步通知页面
@@ -54,6 +55,11 @@
 		String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 
 		//out.println("trade_no:"+trade_no+"<br/>out_trade_no:"+out_trade_no+"<br/>total_amount:"+total_amount);
+
+
+		//2.修改状态完成
+		session.removeAttribute("cart");
+		session.removeAttribute("orders");
 
 		//3.跳转至我的订单列表
 		response.sendRedirect(request.getContextPath()+"/product?method=index");
