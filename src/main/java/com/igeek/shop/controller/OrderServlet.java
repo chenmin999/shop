@@ -3,6 +3,7 @@ package com.igeek.shop.controller;
 import com.igeek.shop.entity.*;
 import com.igeek.shop.service.OrderService;
 import com.igeek.shop.utils.CommonUtils;
+import com.igeek.shop.vo.PageVO;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -113,4 +115,59 @@ public class OrderServlet extends BasicServlet{
         }
     }
 
+
+    //查看我的订单
+    public void viewMyOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //获得请求参数  当前页
+        String page = request.getParameter("pageNow");
+        //默认查询第一页
+        int pageNow = 1;
+        if(page!=null){
+            pageNow = Integer.parseInt(page);
+        }
+
+        //从当前会话中获取登录信息
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        if(user!=null){
+            PageVO<Orders> vo = service.viewMyOrders(user.getUid(), pageNow);
+            //查看我的订单列表
+            List<Orders> ordersList = vo.getList();
+
+            //查看我的订单中的明细
+            if(ordersList!=null){
+                for (Orders orders : ordersList) {
+
+                    //查询订单明细
+                    List<Map<String, Object>> orderItemAndProductList = service.viewOrderItem(orders.getOid());
+
+                    for (Map<String, Object> map : orderItemAndProductList) {
+                        //订单明细
+                        OrderItem orderItem = new OrderItem();
+                        //商品
+                        Product product = new Product();
+
+                        //装配对象中的各个属性值
+                        try {
+                            BeanUtils.populate(orderItem,map);
+                            BeanUtils.populate(product,map);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+
+                        //将商品信息装配至订单明细
+                        orderItem.setProduct(product);
+                        //将订单明细装配至订单
+                        orders.getItemList().add(orderItem);
+                    }
+                }
+            }
+            request.setAttribute("vo",vo);
+        }
+
+        request.getRequestDispatcher("order_list.jsp").forward(request,response);
+    }
 }

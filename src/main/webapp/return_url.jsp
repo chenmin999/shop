@@ -62,7 +62,7 @@
 		session.removeAttribute("orders");
 
 		//3.跳转至我的订单列表
-		response.sendRedirect(request.getContextPath()+"/product?method=index");
+		response.sendRedirect(request.getContextPath()+"/order?method=viewMyOrders");
 
 	}else {
 		out.println("验签失败");

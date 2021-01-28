@@ -5,6 +5,7 @@ import com.igeek.shop.entity.Orders;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version 1.0
@@ -48,5 +49,26 @@ public class OrderDao extends BasicDao<Orders> {
         String sql = "update orders set state = 1 where oid = ?";
         int i = this.update(sql,oid);
         return i;
+    }
+
+    //通过uid用户编号，查看拥有的订单的分页列表
+    public List<Orders> selectOrdersByUid(String uid,int begin) throws SQLException {
+        String sql = "select * from orders where uid=? order by ordertime desc limit ?,3";
+        List<Orders> orders = this.getBeanList(sql, Orders.class, uid, begin);
+        return orders;
+    }
+
+    //通过uid用户编号，查看拥有的订单的总记录数
+    public int selectOrdersCountsByUid(String uid) throws SQLException {
+        String sql = "select count(*) from orders where uid=?";
+        Long counts = (Long) this.getSingleValue(sql, uid);
+        return counts.intValue();
+    }
+
+    //通过oid订单编号，查询订单明细（包含商品具体信息）
+    public List<Map<String,Object>> selectOrderItemAndProduct(String oid) throws SQLException {
+        String sql = "select * from orderitem i inner join product p on i.pid=p.pid where i.oid = ?";
+        List<Map<String, Object>> mapList = this.getMapList(sql, oid);
+        return mapList;
     }
 }
