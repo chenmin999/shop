@@ -12,12 +12,10 @@ import org.apache.commons.beanutils.Converter;
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -125,7 +123,12 @@ public class UserServlet extends BasicServlet {
         String password = request.getParameter("password");
 
         //通过MD5技术处理登录密码
-        password = MD5Utils.md5(password);
+        String code = request.getParameter("code");
+        if(code==null){
+            //不是自动登录
+            password = MD5Utils.md5(password);
+        }
+
 
         //登录
         User user = service.login(username, password);
@@ -133,8 +136,26 @@ public class UserServlet extends BasicServlet {
             //邮件已激活，可以登录
             if(user.getState()==1){
 
-                //自动登录
-                //记住用户名
+                //选择自动登录
+                String free = request.getParameter("free");
+                //选择记住用户名
+                String remember = request.getParameter("remember");
+
+                //选择记住用户名：若点击了remember，则在Cookie中存储用户名
+                if(remember!=null && "remember".equals(remember)){
+                    Cookie usernameCookie = new Cookie("remember", URLEncoder.encode(username,"UTF-8"));
+                    usernameCookie.setMaxAge(7*24*60*60);
+                    response.addCookie(usernameCookie);
+                }
+                //选择自动登录：点击了free，则在Cookie中存储用户名和密码
+                else if(free!=null && "free".equals(free)){
+                    Cookie usernameCookie = new Cookie("username", URLEncoder.encode(username,"UTF-8"));
+                    Cookie passwordCookie = new Cookie("password",password);
+                    usernameCookie.setMaxAge(7*24*60*60);
+                    passwordCookie.setMaxAge(7*24*60*60);
+                    response.addCookie(usernameCookie);
+                    response.addCookie(passwordCookie);
+                }
 
                 //将当前查询到的用户信息，存储至会话中
                 HttpSession session = request.getSession();
@@ -154,7 +175,19 @@ public class UserServlet extends BasicServlet {
     //用户登出
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        //销毁会话
         session.invalidate();
+
+        //清楚Cookie
+        Cookie usernameCookie = new Cookie("username", "");
+        Cookie passwordCookie = new Cookie("password","");
+
+        usernameCookie.setMaxAge(0);
+        passwordCookie.setMaxAge(0);
+
+        response.addCookie(usernameCookie);
+        response.addCookie(passwordCookie);
+
         request.getRequestDispatcher(request.getContextPath()+"/product?method=index").forward(request,response);
     }
 }

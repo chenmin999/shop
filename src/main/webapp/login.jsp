@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLDecoder" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -38,6 +39,33 @@
 </head>
 <body>
 
+	<%! String remember = ""; %>
+	<%
+		String username = null;
+		String password = null;
+
+		Cookie[] cookies = request.getCookies();
+		if(cookies!=null){
+			for (Cookie cookie : cookies) {
+				if(cookie!=null){
+					if(cookie.getName().equals("username")){
+						username = URLDecoder.decode(cookie.getValue(),"UTF-8");
+					}
+					if(cookie.getName().equals("password")){
+						password = cookie.getValue();
+					}
+					if(cookie.getName().equals("remember")){
+						remember = URLDecoder.decode(cookie.getValue(),"UTF-8");
+					}
+				}
+			}
+		}
+
+		if(username!=null && password!=null){
+			request.getRequestDispatcher(request.getContextPath()+"/user?method=login&code=free&username="+username+"&password="+password).forward(request,response);
+		}
+	%>
+
 	<!-- 引入header.jsp -->
 	<jsp:include page="/header.jsp"></jsp:include>
 
@@ -58,7 +86,25 @@
 						<div class="form-group">
 							<label for="username" class="col-sm-2 control-label">用户名</label>
 							<div class="col-sm-6">
-								<input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">
+
+								<%
+									if(remember==null || remember.equals("")){
+								%>
+										<input type="text" class="form-control" id="username"
+											   name="username" placeholder="请输入用户名">
+								<%
+									}
+								%>
+
+								<%
+									if(remember!=null && !remember.equals("")){
+								%>
+										<input type="text" class="form-control" id="username"
+											   name="username" placeholder="请输入用户名" value="<%= remember %>">
+								<%
+									}
+								%>
+
 							</div>
 						</div>
 						<div class="form-group">
@@ -81,10 +127,10 @@
 							<div class="col-sm-offset-2 col-sm-10">
 								<div class="checkbox">
 									<label>
-										<input type="checkbox"> 自动登录
+										<input type="checkbox" name="free" value="free"> 自动登录
 									</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<label>
-										<input type="checkbox"> 记住用户名
+										<input type="checkbox" name="remember" value="remember"> 记住用户名
 									</label>
 								</div>
 							</div>
