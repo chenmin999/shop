@@ -80,7 +80,7 @@ public class UserServlet extends BasicServlet {
         if(flag){
             //注册成功，发一份邮件
             //邮件的主体内容
-            String emailMsg = "恭喜您注册成功，这是一封激活邮件，请点击<a href='http://localhost:8088/user?method=active&code="+code+"'>"+code+"</a>激活";
+            String emailMsg = "恭喜您注册成功，这是一封激活邮件，请点击<a href='http://192.168.48.130:8899/user?method=active&code="+code+"'>"+code+"</a>激活";
             try {
                 MailUtils.sendMail(user.getEmail(),"注册邮件激活",emailMsg);
             } catch (MessagingException e) {
@@ -111,6 +111,7 @@ public class UserServlet extends BasicServlet {
         String username = request.getParameter("username");
         boolean flag = service.validate(username);
 
+        response.setContentType("text/html;charset=utf-8");
         //封装成json数据格式响应至客户端   json串：{"flag":flag}
         String str = "{\"flag\":"+flag+"}";
         response.getWriter().write(str);

@@ -27,10 +27,10 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzfTZAMG9D+IxAnLVfmZ+QseiSuVwJQNNwR1DVmbJoOzEWQ+MTi1uRDQaFCTWY4V4Ypti9zAsRAIvGbg8GjH8omPKN1+AWZo7XMvJqSUoojFLtXu8lSF+gdyBKJQ7HcArI6YrEP7aWZb9Sx0vz0mX0VMADCeHrD1fTEMXyhV9oBDf5sbO6nl+iWpNrIcY71yP2kNrsaLJRKQMaWhIkx74JtD35Ge3kewQkkf5WTzZ8cc8M9TC3eDxZp7obQLC6WklrXEoa6jJmhUg37N39pHN8xdCr8G6ybeq041fNFUNajFzkyxHUfsG2xuAR1jaGTryhe+T9QaeyFIT2ItljHrYFwIDAQAB";
 
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String notify_url = "http://freeinfo.free.idcfengye.com/notify_url.jsp";
+	public static String notify_url = " http://freemark.free.idcfengye.com/notify_url.jsp";
 
 	// 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String return_url = "http://freeinfo.free.idcfengye.com/return_url.jsp";
+	public static String return_url = " http://freemark.free.idcfengye.com/return_url.jsp";
 
 	// 签名方式
 	public static String sign_type = "RSA2";

@@ -32,6 +32,7 @@ public class CategoryServlet extends BasicServlet {
         Gson gson = new Gson();
         String json = gson.toJson(categorys);
 
+        response.setContentType("text/html;charset=utf-8");
         //将json数据响应至客户端
         response.getWriter().write(json);
     }
